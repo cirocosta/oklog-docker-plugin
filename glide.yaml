@@ -3,3 +3,5 @@ import:
 - package: github.com/docker/go-plugins-helpers
   subpackages:
   - sdk
+- package: github.com/alexflint/go-arg
+- package: github.com/rs.zerolog

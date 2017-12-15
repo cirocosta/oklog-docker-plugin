@@ -22,7 +22,7 @@ var (
 		Str("from", "main").
 		Logger()
 	args = &config{
-		Socket: "logpp.socket",
+		Socket: "oklog",
 	}
 )
 
@@ -34,6 +34,7 @@ func must(err error) {
 	logger.Error().
 		Err(err).
 		Msg("main execution failed")
+
 	os.Exit(1)
 }
 
@@ -42,6 +43,6 @@ func main() {
 
 	http.Handlers(&h, driver.NewDriver())
 
-	err = handler.ServeUnix("log", 0)
+	err = handler.ServeUnix(args.Socket, 0)
 	must(err)
 }

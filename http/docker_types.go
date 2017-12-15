@@ -8,8 +8,6 @@ type Capability struct {
 	ReadLogs bool
 }
 
-
-// Info provides enough information for a logging driver to do its function.
 type Info struct {
 	Config              map[string]string
 	ContainerID         string
@@ -24,4 +22,3 @@ type Info struct {
 	LogPath             string
 	DaemonName          string
 }
-
