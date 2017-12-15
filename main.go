@@ -1,12 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/alexflint/go-arg"
-	"github.com/cirocosta/logpp/driver"
-	"github.com/cirocosta/logpp/http"
+	"github.com/cirocosta/oklog-docker-plugin/driver"
+	"github.com/cirocosta/oklog-docker-plugin/http"
 	"github.com/docker/go-plugins-helpers/sdk"
 	"github.com/rs/zerolog"
 )
@@ -16,11 +15,13 @@ type config struct {
 }
 
 var (
-	handler = sdk.NewHandler(`{"Implements": ["LoggingDriver"]}`)
-	logger  = zerolog.New(os.Stdout).
-		With().
-		Str("from", "main").
-		Logger()
+	err       error
+	handler   = sdk.NewHandler(`{"Implements": ["LoggingDriver"]}`)
+	logDriver = driver.New()
+	logger    = zerolog.New(os.Stdout).
+			With().
+			Str("from", "main").
+			Logger()
 	args = &config{
 		Socket: "oklog",
 	}
@@ -41,7 +42,7 @@ func must(err error) {
 func main() {
 	arg.MustParse(args)
 
-	http.Handlers(&h, driver.NewDriver())
+	http.Handlers(&handler, &logDriver)
 
 	err = handler.ServeUnix(args.Socket, 0)
 	must(err)

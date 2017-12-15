@@ -4,27 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/cirocosta/logpp/driver"
+	"github.com/cirocosta/oklog-docker-plugin/docker"
+	"github.com/cirocosta/oklog-docker-plugin/driver"
 	"github.com/docker/go-plugins-helpers/sdk"
 )
-
-type startLoggingRequest struct {
-	File string
-	Info Info
-}
-
-type stopLoggingRequest struct {
-	File string
-}
-
-type capabilitiesResponse struct {
-	Err string
-	Cap Capability
-}
-
-type response struct {
-	Err string
-}
 
 func Handlers(h *sdk.Handler, d *driver.Driver) {
 	h.HandleFunc("/LogDriver.StartLogging", func(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +22,7 @@ func Handlers(h *sdk.Handler, d *driver.Driver) {
 			return
 		}
 
-		err := d.StartLogging(req.File, req.Info)
+		err = d.StartLogging(req.File, req.Info)
 		respond(err, w)
 	})
 
@@ -61,7 +44,7 @@ func Handlers(h *sdk.Handler, d *driver.Driver) {
 
 	h.HandleFunc("/LogDriver.Capabilities", func(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(&capabilitiesResponse{
-			Cap: Capability{ReadLogs: false},
+			Cap: docker.Capability{ReadLogs: false},
 		})
 	})
 }
