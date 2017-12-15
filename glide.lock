@@ -1,0 +1,34 @@
+hash: 43f96000718b8b09efa2f908addaee31960ab80632b0ee150717432dcb078d87
+updated: 2017-12-15T21:26:47.521743-02:00
+imports:
+- name: github.com/alexflint/go-arg
+  version: cef6506c97e5731da728c374ff3523e481026423
+- name: github.com/alexflint/go-scalar
+  version: 45e5d6cd8605faef82fda2bacc59e734a0b6f1f0
+- name: github.com/coreos/go-systemd
+  version: c966a8af8422394b2e370d90e2101adba21c14be
+  subpackages:
+  - activation
+- name: github.com/docker/go-connections
+  version: 3ede32e2033de7505e6500d6c868c2b9ed9f169d
+  subpackages:
+  - sockets
+- name: github.com/docker/go-plugins-helpers
+  version: bd8c600f0cdd76c7a57ff6aa86bd2b423868c688
+  subpackages:
+  - sdk
+- name: github.com/Microsoft/go-winio
+  version: c4dc1301f1dc0307acd38e611aa375a64dfe0642
+- name: github.com/rs/zerolog
+  version: 3ac71fc58dbd43122668a912b755b0979ba9ce1f
+  subpackages:
+  - internal/json
+- name: golang.org/x/net
+  version: f01ecb60fe3835d80d9a0b7b2bf24b228c89260e
+  subpackages:
+  - proxy
+- name: golang.org/x/sys
+  version: 4cd6d1a821c7175768725b55ca82f14683a29ea4
+  subpackages:
+  - windows
+testImports: []

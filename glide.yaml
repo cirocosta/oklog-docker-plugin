@@ -1,0 +1,5 @@
+package: github.com/cirocosta/logpp
+import:
+- package: github.com/docker/go-plugins-helpers
+  subpackages:
+  - sdk
