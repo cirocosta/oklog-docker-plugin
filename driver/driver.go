@@ -47,6 +47,12 @@ func New(cfg Config) (d Driver, err error) {
 	d.logs = make(map[string]*logPair)
 	d.oklog = cfg.OkLog
 
+	err = d.oklog.Connect()
+	if err != nil {
+		err = errors.Wrapf(err, "failed to connect to host")
+		return
+	}
+
 	return
 }
 

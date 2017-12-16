@@ -16,7 +16,7 @@ type config struct {
 	Debug       bool   `arg:"help:whether to activate debug logs"`
 	Socket      string `arg:"help:unix socket to listen to"`
 	MetricsPort int    `arg:"--metrics-port,help:port to expose prometheus metrics"`
-	Ingester    string `arg:"env,required,positional,help:address of oklog ingester"`
+	Ingester    string `arg:"env:INGESTER,required,help:address of oklog ingester"`
 }
 
 var (
