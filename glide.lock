@@ -1,14 +1,18 @@
-hash: 43f96000718b8b09efa2f908addaee31960ab80632b0ee150717432dcb078d87
-updated: 2017-12-15T21:26:47.521743-02:00
+hash: b9ac3b5f929a5344581e7b30fbd3df2488800d4b08f6026bade5e4a46710228e
+updated: 2017-12-16T15:48:03.715483619Z
 imports:
 - name: github.com/alexflint/go-arg
-  version: cef6506c97e5731da728c374ff3523e481026423
+  version: 59fccacb2679dde66e0b20ed65bd26178fcbf54e
 - name: github.com/alexflint/go-scalar
   version: 45e5d6cd8605faef82fda2bacc59e734a0b6f1f0
 - name: github.com/coreos/go-systemd
   version: c966a8af8422394b2e370d90e2101adba21c14be
   subpackages:
   - activation
+- name: github.com/docker/docker
+  version: 52656da9500eefedd69361849954e7d44b9a1513
+  subpackages:
+  - api/types/plugins/logdriver
 - name: github.com/docker/go-connections
   version: 3ede32e2033de7505e6500d6c868c2b9ed9f169d
   subpackages:
@@ -17,18 +21,26 @@ imports:
   version: bd8c600f0cdd76c7a57ff6aa86bd2b423868c688
   subpackages:
   - sdk
+- name: github.com/gogo/protobuf
+  version: 35b81a066e522fb86ece043a8ef1dbfa10b4fed1
+  subpackages:
+  - io
 - name: github.com/Microsoft/go-winio
-  version: c4dc1301f1dc0307acd38e611aa375a64dfe0642
+  version: 78439966b38d69bf38227fbf57ac8a6fee70f69a
+- name: github.com/pkg/errors
+  version: e881fd58d78e04cf6d0de1217f8707c8cc2249bc
 - name: github.com/rs/zerolog
-  version: 3ac71fc58dbd43122668a912b755b0979ba9ce1f
+  version: c2fc1c63dc6a2a2ed48ce9aa4cd5e4c4173b3440
   subpackages:
   - internal/json
+- name: github.com/tonistiigi/fifo
+  version: fbfb6a11ec671efbe94ad1c12c2e98773f19e1e6
 - name: golang.org/x/net
-  version: f01ecb60fe3835d80d9a0b7b2bf24b228c89260e
+  version: d866cfc389cec985d6fda2859936a575a55a3ab6
   subpackages:
   - proxy
 - name: golang.org/x/sys
-  version: 4cd6d1a821c7175768725b55ca82f14683a29ea4
+  version: d5840adf789d732bc8b00f37b26ca956a7cc8e79
   subpackages:
   - windows
 testImports: []

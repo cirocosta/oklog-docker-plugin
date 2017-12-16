@@ -4,4 +4,11 @@ import:
   subpackages:
   - sdk
 - package: github.com/alexflint/go-arg
-- package: github.com/rs.zerolog
+- package: github.com/rs/zerolog
+- package: github.com/docker/docker
+  subpackages:
+  - api/types/plugins/logdriver
+- package: github.com/tonistiigi/fifo
+- package: github.com/gogo/protobuf
+  subpackages:
+  - io

@@ -12,6 +12,7 @@ fmt:
 	go fmt
 	cd ./http && go fmt
 	cd ./driver && go fmt
+	cd ./docker && go fmt
 
 
 rootfs-image:
