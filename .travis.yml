@@ -18,9 +18,7 @@ deploy:
   provider: 'script'
   on:
     branch: 'master'
-  script: >
-		docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
-		sudo make plugin-push
+  script: 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD && sudo make plugin-push'
 
 
 notifications:
