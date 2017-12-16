@@ -1,0 +1,16 @@
+{
+    "description": "OKLog Log Forwarder",
+    "documentation": "https://github.com/cirocosta/oklog-docker-plugin",
+    "entrypoint": [
+        "/usr/local/bin/oklog-docker-plugin"
+    ],
+    "interface": {
+        "socket": "oklog.sock",
+        "types": [
+            "docker.logdriver/1.0"
+        ]
+    },
+    "network": {
+        "type": "host"
+    }
+}
