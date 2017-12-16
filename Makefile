@@ -13,6 +13,7 @@ fmt:
 	cd ./http && go fmt
 	cd ./driver && go fmt
 	cd ./docker && go fmt
+	cd ./oklog && go fmt
 
 
 rootfs-image:

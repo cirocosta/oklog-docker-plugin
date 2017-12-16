@@ -4,26 +4,31 @@ import (
 	"context"
 	"encoding/binary"
 	"io"
-
 	"os"
 	"path"
 	"sync"
 	"syscall"
 
 	"github.com/cirocosta/oklog-docker-plugin/docker"
+	"github.com/cirocosta/oklog-docker-plugin/oklog"
+
 	"github.com/docker/docker/api/types/plugins/logdriver"
 	protoio "github.com/gogo/protobuf/io"
-	"github.com/tonistiigi/fifo"
-
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
+	"github.com/tonistiigi/fifo"
 )
 
 type Driver struct {
 	logger zerolog.Logger
 
-	logs map[string]*logPair
-	mu   sync.Mutex
+	oklog *oklog.OkLog
+	logs  map[string]*logPair
+	mu    sync.Mutex
+}
+
+type Config struct {
+	OkLog *oklog.OkLog
 }
 
 type logPair struct {
@@ -32,9 +37,15 @@ type logPair struct {
 	active bool
 }
 
-func New() (d Driver) {
+func New(cfg Config) (d Driver, err error) {
+	if cfg.OkLog == nil {
+		err = errors.Errorf("OkLog must be non-nil")
+		return
+	}
+
 	d.logger = zerolog.New(os.Stdout)
 	d.logs = make(map[string]*logPair)
+	d.oklog = cfg.OkLog
 
 	return
 }
@@ -46,7 +57,8 @@ func (d *Driver) StartLogging(file string, info docker.Info) (err error) {
 	_, exists := d.logs[name]
 	if exists {
 		d.mu.Unlock()
-		err = errors.Errorf("logger for %q already exists", file)
+		err = errors.Errorf(
+			"logger for %q already exists", file)
 		return
 	}
 	d.mu.Unlock()
@@ -56,9 +68,13 @@ func (d *Driver) StartLogging(file string, info docker.Info) (err error) {
 		Interface("info", info).
 		Msg("start")
 
-	stream, err := fifo.OpenFifo(context.Background(), file, syscall.O_RDONLY, 0700)
+	stream, err := fifo.OpenFifo(
+		context.Background(), file, syscall.O_RDONLY, 0700)
 	if err != nil {
-		return errors.Wrapf(err, "error opening logger fifo: %q", file)
+		err = errors.Wrapf(err,
+			"error opening logger fifo: %q",
+			file)
+		return
 	}
 
 	lp := &logPair{
@@ -78,6 +94,7 @@ func (d *Driver) ConsumeLog(lp *logPair) {
 		buf logdriver.LogEntry
 		dec = protoio.NewUint32DelimitedReader(
 			lp.stream, binary.BigEndian, 1e6)
+		err error
 	)
 
 	defer dec.Close()
@@ -91,7 +108,7 @@ func (d *Driver) ConsumeLog(lp *logPair) {
 			return
 		}
 
-		err := dec.ReadMsg(&buf)
+		err = dec.ReadMsg(&buf)
 		if err != nil {
 			if err == io.EOF {
 				d.logger.Debug().
@@ -124,9 +141,11 @@ func (d *Driver) ConsumeLog(lp *logPair) {
 }
 
 func (d *Driver) DoSomethingWithLog(lp *logPair, line []byte) (err error) {
-	d.logger.Info().
-		Str("CONTAINER", lp.info.ContainerID).
-		Msg(string(line))
+	err = d.oklog.Write(string(line))
+	if err != nil {
+		err = errors.Wrapf(err, "failed to write line")
+		return
+	}
 
 	return
 }

@@ -1,0 +1,30 @@
+language: 'go'
+
+services:
+  - 'docker'
+
+sudo: 'required'
+
+go:
+  - '1.9.2'
+
+before_install:
+  - './.travis/main.sh'
+
+install:
+  - 'sudo make plugin'
+
+deploy:
+  provider: 'script'
+  on:
+    branch: 'master'
+  script: >
+		docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
+		sudo make plugin-push
+
+
+notifications:
+  email: false
+
+
+

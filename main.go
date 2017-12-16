@@ -3,27 +3,33 @@ package main
 import (
 	"os"
 
-	"github.com/alexflint/go-arg"
 	"github.com/cirocosta/oklog-docker-plugin/driver"
 	"github.com/cirocosta/oklog-docker-plugin/http"
+	"github.com/cirocosta/oklog-docker-plugin/oklog"
+
+	"github.com/alexflint/go-arg"
 	"github.com/docker/go-plugins-helpers/sdk"
 	"github.com/rs/zerolog"
 )
 
 type config struct {
-	Socket string `arg:"help:unix socket to listen to"`
+	Debug       bool   `arg:"whether to activate debug logs"`
+	Socket      string `arg:"help:unix socket to listen to"`
+	MetricsPort int    `arg:"--metrics-port,help:port to expose prometheus metrics"`
+	Ingester    string `arg:"env,required,positional,help:address of oklog ingester"`
 }
 
 var (
-	err       error
-	handler   = sdk.NewHandler(`{"Implements": ["LoggingDriver"]}`)
-	logDriver = driver.New()
-	logger    = zerolog.New(os.Stdout).
-			With().
-			Str("from", "main").
-			Logger()
+	handler = sdk.NewHandler(`{"Implements": ["LoggingDriver"]}`)
+	logger  = zerolog.New(os.Stdout).
+		With().
+		Str("from", "main").
+		Logger()
 	args = &config{
-		Socket: "oklog",
+		Socket:      "oklog",
+		Debug:       false,
+		MetricsPort: 0,
+		Ingester:    "",
 	}
 )
 
@@ -40,7 +46,27 @@ func must(err error) {
 }
 
 func main() {
+	var (
+		err       error
+		okLog     oklog.OkLog
+		logDriver driver.Driver
+	)
+
 	arg.MustParse(args)
+
+	if !args.Debug {
+		zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	}
+
+	okLog, err = oklog.New(oklog.Config{
+		Host: args.Ingester,
+	})
+	must(err)
+
+	logDriver, err = driver.New(driver.Config{
+		OkLog: &okLog,
+	})
+	must(err)
 
 	http.Handlers(&handler, &logDriver)
 

@@ -4,6 +4,7 @@ ADD ./VERSION /go/src/github.com/cirocosta/oklog-docker-plugin/VERSION
 ADD ./main.go /go/src/github.com/cirocosta/oklog-docker-plugin/main.go
 ADD ./vendor /go/src/github.com/cirocosta/oklog-docker-plugin/vendor
 ADD ./http /go/src/github.com/cirocosta/oklog-docker-plugin/http
+ADD ./oklog /go/src/github.com/cirocosta/oklog-docker-plugin/oklog
 ADD ./driver /go/src/github.com/cirocosta/oklog-docker-plugin/driver
 ADD ./docker /go/src/github.com/cirocosta/oklog-docker-plugin/docker
 

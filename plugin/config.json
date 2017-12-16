@@ -4,6 +4,16 @@
     "entrypoint": [
         "/usr/local/bin/oklog-docker-plugin"
     ],
+    "env": [
+        {
+            "Description": "Address of ingester nodes",
+            "Name": "INGESTER",
+            "Settable": [
+                "value"
+            ],
+            "Value": "localhost:7651"
+        }
+    ],
     "interface": {
         "socket": "oklog.sock",
         "types": [
