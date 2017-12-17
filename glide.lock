@@ -1,5 +1,5 @@
-hash: b9ac3b5f929a5344581e7b30fbd3df2488800d4b08f6026bade5e4a46710228e
-updated: 2017-12-16T15:48:03.715483619Z
+hash: 8c0e47842818f0702e777a1903da9ff9e075bcc6898a7f933444db8b6f250335
+updated: 2017-12-17T00:01:34.648161701Z
 imports:
 - name: github.com/alexflint/go-arg
   version: 59fccacb2679dde66e0b20ed65bd26178fcbf54e
@@ -10,7 +10,7 @@ imports:
   subpackages:
   - activation
 - name: github.com/docker/docker
-  version: 52656da9500eefedd69361849954e7d44b9a1513
+  version: 26bc976ac9e379b4432f71394f069dfb1e4d7baf
   subpackages:
   - api/types/plugins/logdriver
 - name: github.com/docker/go-connections
@@ -25,6 +25,7 @@ imports:
   version: 35b81a066e522fb86ece043a8ef1dbfa10b4fed1
   subpackages:
   - io
+  - proto
 - name: github.com/Microsoft/go-winio
   version: 78439966b38d69bf38227fbf57ac8a6fee70f69a
 - name: github.com/pkg/errors
@@ -38,9 +39,13 @@ imports:
 - name: golang.org/x/net
   version: d866cfc389cec985d6fda2859936a575a55a3ab6
   subpackages:
+  - context
   - proxy
 - name: golang.org/x/sys
-  version: d5840adf789d732bc8b00f37b26ca956a7cc8e79
+  version: 571f7bbbe08da2a8955aed9d4db316e78630e9a3
   subpackages:
+  - unix
   - windows
+- name: gopkg.in/fatih/pool.v2
+  version: 010e0b745d12eaf8426c95f9c3924d81dd0b668f
 testImports: []

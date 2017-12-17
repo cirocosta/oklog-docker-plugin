@@ -12,3 +12,4 @@ import:
 - package: github.com/gogo/protobuf
   subpackages:
   - io
+- package: gopkg.in/fatih/pool.v2

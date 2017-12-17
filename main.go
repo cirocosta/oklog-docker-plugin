@@ -13,10 +13,9 @@ import (
 )
 
 type config struct {
-	Debug       bool   `arg:"help:whether to activate debug logs"`
-	Socket      string `arg:"help:unix socket to listen to"`
-	MetricsPort int    `arg:"--metrics-port,help:port to expose prometheus metrics"`
-	Ingester    string `arg:"env:INGESTER,required,help:address of oklog ingester"`
+	Debug    bool   `arg:"help:whether to activate debug logs"`
+	Socket   string `arg:"help:unix socket to listen to"`
+	Ingester string `arg:"env:INGESTER,required,help:address of oklog ingester"`
 }
 
 var (
@@ -26,10 +25,9 @@ var (
 		Str("from", "main").
 		Logger()
 	args = &config{
-		Socket:      "oklog",
-		Debug:       false,
-		MetricsPort: 0,
-		Ingester:    "",
+		Socket:   "oklog",
+		Debug:    false,
+		Ingester: "",
 	}
 )
 

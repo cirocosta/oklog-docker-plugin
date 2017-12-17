@@ -34,6 +34,7 @@ type Config struct {
 type logPair struct {
 	stream io.ReadCloser
 	info   docker.Info
+	prefix string
 	active bool
 }
 
@@ -46,12 +47,6 @@ func New(cfg Config) (d Driver, err error) {
 	d.logger = zerolog.New(os.Stdout)
 	d.logs = make(map[string]*logPair)
 	d.oklog = cfg.OkLog
-
-	err = d.oklog.Connect()
-	if err != nil {
-		err = errors.Wrapf(err, "failed to connect to host")
-		return
-	}
 
 	return
 }
@@ -83,10 +78,17 @@ func (d *Driver) StartLogging(file string, info docker.Info) (err error) {
 		return
 	}
 
+	var prefix string
+
+	for k, v := range info.GetOptLabels() {
+		prefix += k + "=" + v + " "
+	}
+
 	lp := &logPair{
 		info:   info,
 		stream: stream,
 		active: true,
+		prefix: prefix,
 	}
 	d.logs[name] = lp
 
@@ -147,7 +149,7 @@ func (d *Driver) ConsumeLog(lp *logPair) {
 }
 
 func (d *Driver) DoSomethingWithLog(lp *logPair, line []byte) (err error) {
-	err = d.oklog.Write(string(line))
+	err = d.oklog.Write(lp.prefix + string(line))
 	if err != nil {
 		err = errors.Wrapf(err, "failed to write line")
 		return

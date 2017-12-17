@@ -1,6 +1,7 @@
 package docker
 
 import (
+	"strings"
 	"time"
 )
 
@@ -21,4 +22,22 @@ type Info struct {
 	ContainerLabels     map[string]string
 	LogPath             string
 	DaemonName          string
+}
+
+// GetOptLabel extracts a list of labels from `--log-opt`
+// configuration and populates a map with their keys and
+// values.
+func (info *Info) GetOptLabels() (optLabels map[string]string) {
+	optLabels = make(map[string]string)
+
+	labels, ok := info.Config["labels"]
+	if ok && len(labels) > 0 {
+		for _, l := range strings.Split(labels, ",") {
+			if v, ok := info.ContainerLabels[l]; ok {
+				optLabels[l] = v
+			}
+		}
+	}
+
+	return
 }
