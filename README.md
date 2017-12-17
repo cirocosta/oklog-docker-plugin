@@ -1,6 +1,6 @@
 <h1 align="center">oklog-docker-plugin 📝 </h1>
 
-<h5 align="center">Forwards your container logs to Docker</h5>
+<h5 align="center">Forwards your container logs to OKLog ingestors</h5>
 
 <br/>
 
