@@ -78,8 +78,7 @@ func (d *Driver) StartLogging(file string, info docker.Info) (err error) {
 		return
 	}
 
-	var prefix string
-
+	prefix := "cid=" + info.ContainerID + " "
 	for k, v := range info.GetOptLabels() {
 		prefix += k + "=" + v + " "
 	}
